@@ -24,7 +24,7 @@ namespace AdventureWorks.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            
             // services.AddTransient<ICustomerManager, DummyCustomerManager>();
             services.AddTransient<ICustomerManager, CustomerManager>();
         }
@@ -42,12 +42,16 @@ namespace AdventureWorks.Web
             }
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                       name: "areas",
                       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
