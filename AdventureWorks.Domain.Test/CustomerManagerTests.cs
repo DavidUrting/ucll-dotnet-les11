@@ -8,11 +8,13 @@ namespace AdventureWorks.Domain.Test
     [TestClass]
     public class CustomerManagerTests
     {
+        const string CONN_STRING = "Data Source=localhost;Initial Catalog=AdventureWorks2017;Integrated Security=True";
+
         [TestMethod]
         public void TestGetCustomer()
         {
             // ARRANGE
-            CustomerManager cm = new CustomerManager();
+            CustomerManager cm = new CustomerManager(CONN_STRING);
 
             // ACT
             Customer c = cm.GetCustomer(29546);
@@ -27,7 +29,7 @@ namespace AdventureWorks.Domain.Test
         public void TestSearchCustomers()
         {
             // ARRANGE
-            CustomerManager cm = new CustomerManager();
+            CustomerManager cm = new CustomerManager(CONN_STRING);
 
             // ACT
             IList<Customer> customers = cm.SearchCustomers("Lucy");
@@ -41,7 +43,7 @@ namespace AdventureWorks.Domain.Test
         public void TestInsertCustomer()
         {
             // ARRANGE
-            CustomerManager cm = new CustomerManager();
+            CustomerManager cm = new CustomerManager(CONN_STRING);
             Customer customerToInsert = new Customer()
             { 
                 FirstName = "Test",
@@ -63,7 +65,7 @@ namespace AdventureWorks.Domain.Test
         public void TestUpdateCustomer()
         {
             // ARRANGE
-            CustomerManager cm = new CustomerManager();
+            CustomerManager cm = new CustomerManager(CONN_STRING);
             Customer customerToInsert = new Customer()
             {
                 FirstName = "Test",
@@ -89,7 +91,7 @@ namespace AdventureWorks.Domain.Test
         public void TestDeleteCustomer()
         {
             // ARRANGE
-            CustomerManager cm = new CustomerManager();
+            CustomerManager cm = new CustomerManager(CONN_STRING);
             Customer customerToInsert = new Customer()
             {
                 FirstName = "Test",
@@ -109,7 +111,7 @@ namespace AdventureWorks.Domain.Test
         [ClassCleanup]
         public static void CleanTestData()
         {
-            CustomerManager cm = new CustomerManager();
+            CustomerManager cm = new CustomerManager(CONN_STRING);
             foreach (Customer testCustomer in cm.SearchCustomers("Test"))
             {
                 cm.DeleteCustomer(testCustomer.Id);

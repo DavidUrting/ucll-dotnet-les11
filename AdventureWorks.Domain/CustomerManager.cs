@@ -7,12 +7,19 @@ namespace AdventureWorks.Domain
 {
     public class CustomerManager: ICustomerManager
     {
+        private readonly string _connString;
+
+        public CustomerManager(string connString)
+        {
+            _connString = connString;
+        }
+
         public IList<Customer> SearchCustomers(string keyword)
         {
             keyword = keyword.ToUpper();
 
             List<Customer> customers = new List<Customer>();
-            using (var dbContext = new Entities.AdventureWorks2017Context())
+            using (var dbContext = new Entities.AdventureWorks2017Context(_connString))
             {
                 IEnumerable<Entities.Customer> entities = dbContext.Customer
                     .Include(c => c.Person)
@@ -38,7 +45,7 @@ namespace AdventureWorks.Domain
 
         public Customer GetCustomer(int id)
         {
-            using (var dbContext = new Entities.AdventureWorks2017Context())
+            using (var dbContext = new Entities.AdventureWorks2017Context(_connString))
             {
                 Entities.Customer customer = dbContext.Customer
                     .Include(c => c.Person)
@@ -64,7 +71,7 @@ namespace AdventureWorks.Domain
 
         public Customer InsertCustomer(Customer customer)
         {
-            using (var dbContext = new Entities.AdventureWorks2017Context())
+            using (var dbContext = new Entities.AdventureWorks2017Context(_connString))
             {
                 // Omvormen 'domein' object naar 'entity' object(en).
                 // Een customer aanmaken komt neer op het opvullen van 3 tabellen!
@@ -97,7 +104,7 @@ namespace AdventureWorks.Domain
 
         public Customer UpdateCustomer(Customer customer)
         {
-            using (var dbContext = new Entities.AdventureWorks2017Context())
+            using (var dbContext = new Entities.AdventureWorks2017Context(_connString))
             {
                 var customerEntity = dbContext.Customer
                         .Include(c => c.Person)
@@ -117,7 +124,7 @@ namespace AdventureWorks.Domain
 
         public void DeleteCustomer(int id)
         {
-            using (var dbContext = new Entities.AdventureWorks2017Context())
+            using (var dbContext = new Entities.AdventureWorks2017Context(_connString))
             {
                 var customerEntity = dbContext.Customer
                         .Include(c => c.Person)

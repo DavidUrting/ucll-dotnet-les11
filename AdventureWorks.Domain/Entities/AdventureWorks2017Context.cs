@@ -4,8 +4,11 @@ namespace AdventureWorks.Domain.Entities
 {
     public partial class AdventureWorks2017Context : DbContext
     {
-        public AdventureWorks2017Context()
+        private string _connString = null;
+
+        public AdventureWorks2017Context(string connString)
         {
+            _connString = connString;
         }
 
         public AdventureWorks2017Context(DbContextOptions<AdventureWorks2017Context> options)
@@ -110,8 +113,7 @@ namespace AdventureWorks.Domain.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=AdventureWorks2017;Integrated Security=True");
+                optionsBuilder.UseSqlServer(_connString);
             }
         }
 
