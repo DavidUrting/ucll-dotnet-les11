@@ -1,8 +1,6 @@
-﻿using System;
-using AdventureWorks.Web.Models;
+﻿using AdventureWorks.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +18,7 @@ namespace AdventureWorks.Web.Areas.Identity
                         context.Configuration.GetConnectionString("AdventureWorksWebContextConnection")));
 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AdventureWorksWebContext>();
             });
         }

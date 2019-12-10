@@ -3,6 +3,7 @@ using AdventureWorks.Domain.Models;
 using AdventureWorks.Web.Areas.Sales.Models;
 using AdventureWorks.Web.Models;
 using AdventureWorks.Web.Models.WebAPI;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using System.Net;
 
 namespace AdventureWorks.Web.Areas.Sales.Controllers
 {
+    [Authorize(Roles = "Employee")]
     [Area("Sales")]
     public class CustomerController : Controller
     {
@@ -84,12 +86,14 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             else return NotFound();
         }
 
+        [Authorize(Roles ="Sales, SalesMgmt")]
         public ActionResult Create()
         {
             SetCustomerOfTheDay();
             return View();
         }
 
+        [Authorize(Roles = "Sales, SalesMgmt")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -113,6 +117,7 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             }
         }
 
+        [Authorize(Roles = "Sales, SalesMgmt")]
         public ActionResult Edit(int id)
         {
             Customer c = _manager.GetCustomer(id);
@@ -128,6 +133,7 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             return View(vm);
         }
 
+        [Authorize(Roles = "Sales, SalesMgmt")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -150,6 +156,7 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             }
         }
 
+        [Authorize(Roles = "Sales, SalesMgmt")]
         public ActionResult Delete(int id)
         {
             Customer c = _manager.GetCustomer(id);
@@ -165,7 +172,7 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             return View(vm);
         }
 
-        // POST: Test/Delete/5
+        [Authorize(Roles = "Sales, SalesMgmt")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -182,6 +189,7 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             }
         }
 
+        [AllowAnonymous]
         public IActionResult BlankOffer()
         {
             string fileOnServer = Path.Combine(
