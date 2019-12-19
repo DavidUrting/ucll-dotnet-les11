@@ -210,6 +210,11 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
             return PartialView();
         }
 
+        public IActionResult GetAllCustomersReport()
+        {
+            return Content("TODO!");
+        }
+
         private void SetCustomerOfTheDay()
         {
             // TODO: data ophalen en viewmodel gebruiken i.p.v. ViewBag
