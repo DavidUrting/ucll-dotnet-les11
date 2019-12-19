@@ -212,7 +212,11 @@ namespace AdventureWorks.Web.Areas.Sales.Controllers
 
         public IActionResult GetAllCustomersReport()
         {
-            return Content("TODO!");
+            string report = _manager.GenerateAllCustomersReport();
+
+            return File(
+                System.IO.File.ReadAllBytes(report),
+                "application/pdf");
         }
 
         private void SetCustomerOfTheDay()

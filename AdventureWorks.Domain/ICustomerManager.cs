@@ -11,5 +11,7 @@ namespace AdventureWorks.Domain
         Customer InsertCustomer(Customer customer);
         Customer UpdateCustomer(Customer customer);
         void DeleteCustomer(int id);
+
+        string GenerateAllCustomersReport();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AdventureWorks.Domain.Models;
+using Aspose.Words;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AdventureWorks.Domain
@@ -24,9 +26,9 @@ namespace AdventureWorks.Domain
                 IEnumerable<Entities.Customer> entities = dbContext.Customer
                     .Include(c => c.Person)
                     .Include(c => c.Person.EmailAddress)
-                    .Where(c => c.Person.FirstName.ToUpper().Contains(keyword)
+                    .Where(c => (c.Person.FirstName.ToUpper().Contains(keyword)
                                 ||
-                                c.Person.LastName.ToUpper().Contains(keyword));
+                                c.Person.LastName.ToUpper().Contains(keyword)) && c.Person != null);
                 foreach (var entity in entities)
                 {
                     customers.Add(new Customer()
@@ -141,6 +143,40 @@ namespace AdventureWorks.Domain
 
                 dbContext.SaveChanges();
             }
+        }
+
+        public string GenerateAllCustomersReport()
+        {
+            string reportPath = Path.GetTempFileName();
+
+            var customers = this.SearchCustomers(string.Empty);
+
+            Document doc = new Document();
+            DocumentBuilder docBuilder = new DocumentBuilder(doc);
+            Paragraph p = docBuilder.InsertParagraph();
+            p.Runs.Add(new Run(doc, "AdventureWorks Customers"));
+            docBuilder.StartTable();
+            docBuilder.InsertCell();
+            docBuilder.Write("ID");
+            docBuilder.InsertCell();
+            docBuilder.Write("Last name");
+            docBuilder.InsertCell();
+            docBuilder.Write("First name");
+            docBuilder.EndRow();
+            foreach (var customer in customers)
+            {
+                docBuilder.InsertCell();
+                docBuilder.Write(customer.Id.ToString());
+                docBuilder.InsertCell();
+                docBuilder.Write(customer.LastName);
+                docBuilder.InsertCell();
+                docBuilder.Write(customer.FirstName);
+                docBuilder.EndRow();
+            }
+            docBuilder.EndTable();
+            doc.Save(reportPath, SaveFormat.Pdf);
+
+            return reportPath;
         }
     }
 }

@@ -47,5 +47,10 @@ namespace AdventureWorks.Domain
         {
             _dummyData = _dummyData.Where(c => c.Id != id).ToList();
         }
+
+        public string GenerateAllCustomersReport()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
