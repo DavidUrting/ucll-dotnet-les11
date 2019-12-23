@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdventureWorks.Web.Areas.Production.Controllers;
 using AdventureWorks.Web.Areas.Sales.Controllers;
 using AdventureWorks.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,10 @@ namespace AdventureWorks.Web.Controllers
             switch (report)
             {
                 case ALL_PRODUCTS:
-                    return Content("Not implemented yet");
+                    return RedirectToAction(
+                        nameof(ProductController.GetAllProductsReport),
+                        nameof(ProductController).Replace("Controller", ""),
+                        new { area = "Production" });
                 case ALL_CUSTOMERS:
                     return RedirectToAction(
                         nameof(CustomerController.GetAllCustomersReport), 

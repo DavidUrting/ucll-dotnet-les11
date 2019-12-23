@@ -23,7 +23,6 @@
     <Folder Include="Areas\HumanResources\Data\" />
     <Folder Include="Areas\HumanResources\Models\" />
     <Folder Include="Areas\HumanResources\Views\" />
-    <Folder Include="Areas\Production\Controllers\" />
     <Folder Include="Areas\Production\Data\" />
     <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Production\Views\" />
